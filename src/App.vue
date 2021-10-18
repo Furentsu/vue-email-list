@@ -1,19 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <List :emails='emailList'/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import List from './components/List.vue';
+import axios from 'axios';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    List
+  },
+  data() {
+    return {
+      emailList: [],
+    }
+  },
+  beforeCreate() {
+    
+        for (let i=0; i<10; i++) {
+          axios.get('https://flynn.boolean.careers/exercises/api/random/mail')
+            .then((response) => {
+              this.emailList.push(response.data.response);
+           })
+        }
+        console.log(this.emailList)
   }
 }
+
 </script>
 
 <style lang="scss">
@@ -21,8 +37,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
+
+ 
 </style>
